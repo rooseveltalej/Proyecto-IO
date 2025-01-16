@@ -1,0 +1,41 @@
+.grow{
+    background-color: rgb(102, 123, 145);
+    color: white;
+    border-radius: 12pt;
+    align-items: center;
+    padding-top: 0.5cm;
+    padding-bottom: 0.5cm;
+    padding-right: 0.5cm;
+    padding-left: 0.5cm;
+}
+
+.grow:hover{
+    transform: scale(1.1);
+    margin-right: 0.25cm;
+    margin-left: 0.25cm;
+    height: 3.5cm;
+}
+
+.hiddentext{
+    display: none;
+}
+
+.grow:hover .hiddentext{
+    display: block;
+}
+
+.grow:hover .icon{
+    margin-left: 30%;
+}
+
+.container{
+    justify-content: center;
+    align-items: center;
+    background-color: silver;
+    height: 500px;
+    width: 650px;
+    padding-top: 20%;
+    background-color: rgba(192, 192, 192, 0.5);
+    border-radius: 12pt;
+    color: white;
+}
