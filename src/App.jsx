@@ -3,7 +3,7 @@ import Mochila from './pages/Mochila.jsx'
 import Arboles from './pages/ArbolesBinarios.jsx'
 import Rutas from './pages/Floyd.jsx'
 import Series from './pages/SeriesDeportivas.jsx'
-import Home from './Home.tsx'
+import Home from './Home.jsx'
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom'
 
 const router = createBrowserRouter(
