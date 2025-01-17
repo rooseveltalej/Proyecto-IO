@@ -1,8 +1,10 @@
 import './App.css'
 import Mochila from './pages/Mochila.js'
-import Home from './Home.tsx'
+import Arboles from './pages/ArbolesBinarios.js'
+import Rutas from './pages/Floyd.js'
+import Series from './pages/SeriesDeportivas.js'
+import Home from './Home.js'
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom'
-import ArbolesBinarios from './pages/ArbolesBinarios.tsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -10,7 +12,9 @@ const router = createBrowserRouter(
       <Route path="/" element={<Home />} />,
       <Route index element={<Home />} />,
       <Route path="/mochila" element={<Mochila />} />,
-      <Route path="/ArbolesBinarios" element={ArbolesBinarios />} />
+      <Route path="/rutas" element={<Rutas />} />,
+      <Route path="/arboles" element={<Arboles />} />,
+      <Route path="/series" element={<Series />} />,
     </>
   ))
 
