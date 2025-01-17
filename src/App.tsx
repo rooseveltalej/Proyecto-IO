@@ -1,5 +1,5 @@
 import './App.css'
-import Mochila from './pages/Mochila.jsx'
+import Mochila from './pages/Mochila.js'
 import Home from './Home.tsx'
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom'
 import ArbolesBinarios from './pages/ArbolesBinarios.tsx'
