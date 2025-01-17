@@ -1,9 +1,9 @@
 import './App.css'
-import Mochila from './pages/Mochila.jsx'
-import Arboles from './pages/ArbolesBinarios.jsx'
-import Rutas from './pages/Floyd.jsx'
-import Series from './pages/SeriesDeportivas.jsx'
-import Home from './Home.jsx'
+import Mochila from './pages/Mochila.js'
+import Arboles from './pages/ArbolesBinarios.js'
+import Rutas from './pages/Floyd.js'
+import Series from './pages/SeriesDeportivas.js'
+import Home from './Home.js'
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom'
 
 const router = createBrowserRouter(
