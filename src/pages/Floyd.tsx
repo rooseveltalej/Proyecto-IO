@@ -4,6 +4,7 @@ import MatrixInput from "../components/floyd/MatrixInput";
 import IntermediateMatrices from "../components/floyd/IntermediateMatrices";
 import ResultMatrices from "../components/floyd/ResultMatrices";
 import PredecessorMatrix from "../components/floyd/PredecessorMatrix";
+import FloydIO from "../components/floyd/FloydIO";
 import "../components/floyd/Styles/Rutas.css";
 
 const Rutas = () => {
@@ -75,12 +76,25 @@ const Rutas = () => {
     initializeMatrix(count);
   };
 
+  const handleImport = (newMatrix, newNodeCount) => {
+    setNodeCount(newNodeCount);
+    setMatrix(newMatrix);
+    setResult(null);
+    setPredecessorMatrix(null);
+    setIntermediateMatrices([]);
+  };
+
   return (
     <div className="App">
       <h1>Floyd-Warshall Algorithm</h1>
       <NodeSelector
         nodeCount={nodeCount}
         handleNodeCountChange={handleNodeCountChange}
+      />
+      <FloydIO 
+        matrix={matrix}
+        nodeCount={nodeCount}
+        onImport={handleImport}
       />
       <MatrixInput matrix={matrix} handleInputChange={handleInputChange} />
       <button onClick={handleRun}>Run Floyd-Warshall</button>
