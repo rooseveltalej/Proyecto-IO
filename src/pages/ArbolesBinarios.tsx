@@ -1,6 +1,7 @@
 import { Input, Button } from "react-daisyui";
 import { useState } from "react";
-import { calcularTablas } from "../components/arbolesBinarios";
+import { calcularTablas } from "../components/arbolesBinarios/logicArboles";
+import { saveAs } from "file-saver";
 
 function ArbolesBinarios() {
   const [numLlaves, setNumLlaves] = useState<number>(0);
@@ -9,12 +10,63 @@ function ArbolesBinarios() {
   const [tablaA, setTablaA] = useState<number[][]>([]);
   const [tablaR, setTablaR] = useState<number[][]>([]);
   const [llavesOrdenadas, setLlavesOrdenadas] = useState<string[]>([]);
+  const [arbol, setArbol] = useState<any>(null);
 
   const handleSubmit = () => {
     const result = calcularTablas(llaves, pesos);
     setTablaA(result.tablaA);
     setTablaR(result.tablaR);
     setLlavesOrdenadas(result.llavesOrdenadas);
+    setArbol(result.arbol);
+  };
+
+  const handleExport = () => {
+    const data = { llaves, pesos };
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+    saveAs(blob, "datos_entrada.json");
+  };
+
+  const handleImport = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const data = JSON.parse(e.target?.result as string);
+        setLlaves(data.llaves);
+        setPesos(data.pesos);
+        setNumLlaves(data.llaves.length);
+      };
+      reader.readAsText(file);
+    }
+  };
+
+  const renderArbol = (nodo: any): JSX.Element | null => {
+    if (!nodo) return null;
+    return (
+      <div className="relative flex flex-col items-center">
+        <div className="w-12 h-12 bg-blue-500 text-white rounded-full flex items-center justify-center">
+          {nodo.llave}
+        </div>
+        <div className="flex justify-between w-full">
+          <div className="w-1/2 flex justify-end">
+            {nodo.izquierda && (
+              <div className="relative">
+                <div className="absolute h-16 w-1 bg-black transform -translate-y-4 translate-x-6"></div>
+                {renderArbol(nodo.izquierda)}
+              </div>
+            )}
+          </div>
+          <div className="w-1/2 flex justify-start">
+            {nodo.derecha && (
+              <div className="relative">
+                <div className="absolute h-16 w-1 bg-black transform -translate-y-4 translate-x-6"></div>
+                {renderArbol(nodo.derecha)}
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -25,14 +77,13 @@ function ArbolesBinarios() {
       </header>
 
       <div className="form-container flex flex-col items-center gap-6">
-        {/* Input para el número de llaves */}
         <div className="input-group w-full max-w-lg">
           <label className="input-label text-lg font-medium">Número de llaves (máximo 10):</label>
           <Input
             type="number"
             value={numLlaves}
             onChange={(e) => {
-              const value = Math.min(Number(e.target.value), 10); // Máximo 10 llaves
+              const value = Math.min(Number(e.target.value), 10);
               setNumLlaves(value);
               setLlaves(Array(value).fill(""));
               setPesos(Array(value).fill(0));
@@ -43,7 +94,6 @@ function ArbolesBinarios() {
           />
         </div>
 
-        {/* Inputs para llaves y pesos */}
         {Array.from({ length: numLlaves }).map((_, i) => (
           <div key={i} className="input-pair flex w-full max-w-lg gap-4">
             <div className="input-group w-1/2">
@@ -83,9 +133,17 @@ function ArbolesBinarios() {
         >
           Generar Tablas
         </Button>
+        <Button className="export-button bg-slate-600 hover:bg-slate-500 mt-4" onClick={handleExport}>
+          Exportar JSON
+        </Button>
+        <Input
+          type="file"
+          accept="application/json"
+          onChange={handleImport}
+          className="import-input mt-4"
+        />
       </div>
 
-      {/* Mostrar las llaves ordenadas */}
       {llavesOrdenadas.length > 0 && (
         <div className="results-container mt-10">
           <h3 className="results-title text-2xl font-bold mb-4">Llaves Ordenadas</h3>
@@ -99,7 +157,6 @@ function ArbolesBinarios() {
         </div>
       )}
 
-      {/* Resultados */}
       {tablaA.length > 0 && (
         <div className="tables-container mt-10">
           <h2 className="tables-title text-3xl font-bold mb-6">Resultados</h2>
@@ -137,6 +194,13 @@ function ArbolesBinarios() {
               </tbody>
             </table>
           </div>
+        </div>
+      )}
+
+      {arbol && (
+        <div className="tree-container mt-10">
+          <h2 className="tree-title text-3xl font-bold mb-6">Árbol Generado</h2>
+          <div className="tree-visualization flex justify-center items-center">{renderArbol(arbol)}</div>
         </div>
       )}
     </div>
