@@ -1,0 +1,35 @@
+.App {
+    text-align: center;
+    margin: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  table {
+    margin: 0 auto;
+    border-collapse: collapse;
+  }
+  
+  td {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  input {
+    width: 50px;
+    text-align: center;
+  }
+  
+  button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #45a049;
+  }
+  
