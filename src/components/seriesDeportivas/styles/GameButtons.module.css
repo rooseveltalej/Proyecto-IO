@@ -1,0 +1,46 @@
+.container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+  }
+  
+  .gameButton {
+    width: 60px;
+    height: 60px;
+    margin: 10px;
+    border: none;
+    border-radius: 50%;
+    background-color: #e74c3c;
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .green {
+    background-color: #11cc5f;
+  }
+  
+  .red {
+    background-color: #e74c3c;
+  }
+  .yellow {
+    background-color: #ecc114;
+  }
+  
+
+  .gameButton:hover {
+    transform: translateY(-3px);
+    background-color: #667b91;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+  }
+  
+  .gameButton:active {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  

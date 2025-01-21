@@ -1,0 +1,80 @@
+.tableContainer {
+    position: relative;
+    display: block;
+    flex-direction: row;
+    margin-top: 40px;
+    margin-left: 0px;
+    color: #242424;
+  }
+  .layout {
+    display: flex; 
+    align-items: flex-start; 
+    gap: -90px; 
+  }
+  .table {
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 14px;
+  }
+  .cell {
+    width: 40px;
+    height: 40px;
+    border: 1px solid #ddd;
+    background-color: #f0f0f0;
+    text-align: center;
+  }
+  .headerCell {
+    width: 40px;
+    height: 40px;
+    background-color: #667b91;
+    border: 1px solid #ddd;
+    text-align: center;
+    font-weight: bold;
+    color: #ffffff;
+  }
+  .cornerCell {
+    display: block;
+    width: 50px;
+    height: 40px;
+    background-color: #667b91;
+    border: 1px solid #ddd;
+  }
+  .teamAName {
+    position: absolute;
+    left: 4%;
+    top: 35%;
+    transform: translateY(-50%) rotate(-90deg);
+    font-size: 22px;
+    font-weight: bold;
+  }
+  .teamBName {
+    position: absolute;
+    display: inline-block;
+    top: -50px;
+    left: 40%;
+    transform: translateX(-50%);
+    font-size: 22px;
+    font-weight: bold;
+  }
+  .probabilityContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 0px;
+  }
+  .probabilityColumn {
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    font-size: 16px;
+  }
+  .probabilityColumn h4 {
+    margin-bottom: 10px;
+    font-size: 18px;
+    color: #073554;
+  }
+  .probabilityColumn p {
+    margin: 5px 0;
+    font-size: 16px;
+  }
