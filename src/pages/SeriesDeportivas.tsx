@@ -3,7 +3,7 @@ function Series() {
     return (
         <>
             <div>
-                <h1>Series</h1>
+                <h1>Series Deportivas</h1>
             </div>
         </>
     )
