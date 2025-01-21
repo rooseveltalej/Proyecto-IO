@@ -1,6 +1,6 @@
 /* General */
 .app-container {
-    background-color: #1e293b; /* slate-800 */
+    background-color: #1e293b; 
     color: white;
     height: 100%; 
     display: flex;
@@ -14,12 +14,12 @@
   }
   
   .title {
-    font-size: 2.25rem; /* text-4xl */
+    font-size: 2.25rem; 
     font-weight: 700;
   }
   
   .subtitle {
-    font-size: 1.125rem; /* text-lg */
+    font-size: 1.125rem; 
     margin-top: 0.5rem;
   }
   
@@ -32,20 +32,20 @@
   
   /* Sección Izquierda: Formulario */
   .section-left {
-    background-color: #2d3748; /* slate-700 */
+    background-color: #2d3748; 
     flex: 1;
-    padding: 2rem; /* Espaciado interno */
+    padding: 2rem; 
     border-radius: 8px;
     display: flex;
     flex-direction: column;
-    gap: 1.5rem; /* Espaciado entre los elementos */
+    gap: 1.5rem; 
     overflow-y: auto;
   }
   
   .form-container {
     display: flex;
     flex-direction: column;
-    gap: 1rem; /* Espaciado entre campos del formulario */
+    gap: 1rem; 
   }
   
   .input-group {
@@ -53,7 +53,7 @@
   }
   
   .input-label {
-    font-size: 1rem; /* text-lg */
+    font-size: 1rem; 
     font-weight: 500;
   }
   
@@ -73,7 +73,7 @@
   
   .generate-button,
   .export-button {
-    background-color: #475569; /* slate-600 */
+    background-color: #475569; 
     color: white;
     padding: 0.5rem 1rem;
     border: none;
@@ -83,7 +83,7 @@
   
   .generate-button:hover,
   .export-button:hover {
-    background-color: #64748b; /* slate-500 */
+    background-color: #64748b; 
   }
   
   .import-input {
@@ -92,21 +92,21 @@
   
   /* Sección Derecha: Respuestas */
   .section-right {
-    background-color: #2c2f33; /* slate-700 */
-    flex: 2; /* Mayor espacio para los resultados */
-    padding: 2rem; /* Espaciado interno */
+    background-color: #2c2f33; 
+    flex: 2; 
+    padding: 2rem; 
     border-radius: 8px;
     overflow-y: auto;
   }
   
   .results-title {
-    font-size: 1.5rem; /* text-2xl */
+    font-size: 1.5rem; 
     font-weight: 700;
     margin-bottom: 1rem;
   }
   
   .keys-list {
-    font-size: 1.125rem; /* text-lg */
+    font-size: 1.125rem; 
   }
   
   .key-item {
@@ -118,7 +118,7 @@
   }
   
   .tables-title {
-    font-size: 1.875rem; /* text-3xl */
+    font-size: 1.875rem; 
     font-weight: 700;
   }
   
@@ -129,7 +129,7 @@
   }
   
   .table-cell {
-    border: 1px solid #cbd5e1; /* slate-400 */
+    border: 1px solid #cbd5e1; 
     padding: 0.5rem;
   }
   
@@ -139,7 +139,7 @@
   }
   
   .tree-title {
-    font-size: 1.875rem; /* text-3xl */
+    font-size: 1.875rem; 
     font-weight: 700;
     margin-bottom: 1rem;
   }
@@ -159,7 +159,7 @@
   .tree-node-data {
     width: 3rem;
     height: 3rem;
-    background-color: #3b82f6; /* blue-500 */
+    background-color: #3b82f6; 
     color: white;
     border-radius: 9999px;
     display: flex;
