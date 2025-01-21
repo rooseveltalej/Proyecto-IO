@@ -1,0 +1,175 @@
+/* General */
+.app-container {
+    background-color: #1e293b; /* slate-800 */
+    color: white;
+    height: 100%; 
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+  }
+  
+  .app-header {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  
+  .title {
+    font-size: 2.25rem; /* text-4xl */
+    font-weight: 700;
+  }
+  
+  .subtitle {
+    font-size: 1.125rem; /* text-lg */
+    margin-top: 0.5rem;
+  }
+  
+  /* Layout Principal */
+  .main-layout {
+    display: flex;
+    flex: 1;
+    gap: 2rem;
+  }
+  
+  /* Sección Izquierda: Formulario */
+  .section-left {
+    background-color: #2d3748; /* slate-700 */
+    flex: 1;
+    padding: 2rem; /* Espaciado interno */
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem; /* Espaciado entre los elementos */
+    overflow-y: auto;
+  }
+  
+  .form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem; /* Espaciado entre campos del formulario */
+  }
+  
+  .input-group {
+    width: 100%;
+  }
+  
+  .input-label {
+    font-size: 1rem; /* text-lg */
+    font-weight: 500;
+  }
+  
+  .input-field {
+    width: 100%;
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+  }
+  
+  .input-pair {
+    display: flex;
+    width: 100%;
+    gap: 1rem;
+  }
+  
+  .generate-button,
+  .export-button {
+    background-color: #475569; /* slate-600 */
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+  }
+  
+  .generate-button:hover,
+  .export-button:hover {
+    background-color: #64748b; /* slate-500 */
+  }
+  
+  .import-input {
+    margin-top: 1rem;
+  }
+  
+  /* Sección Derecha: Respuestas */
+  .section-right {
+    background-color: #2c2f33; /* slate-700 */
+    flex: 2; /* Mayor espacio para los resultados */
+    padding: 2rem; /* Espaciado interno */
+    border-radius: 8px;
+    overflow-y: auto;
+  }
+  
+  .results-title {
+    font-size: 1.5rem; /* text-2xl */
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+  
+  .keys-list {
+    font-size: 1.125rem; /* text-lg */
+  }
+  
+  .key-item {
+    margin-bottom: 0.5rem;
+  }
+  
+  .tables-container {
+    margin-top: 2rem;
+  }
+  
+  .tables-title {
+    font-size: 1.875rem; /* text-3xl */
+    font-weight: 700;
+  }
+  
+  .results-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1.5rem;
+  }
+  
+  .table-cell {
+    border: 1px solid #cbd5e1; /* slate-400 */
+    padding: 0.5rem;
+  }
+  
+  /* Árbol */
+  .tree-container {
+    margin-top: 2rem;
+  }
+  
+  .tree-title {
+    font-size: 1.875rem; /* text-3xl */
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+  
+  .tree-visualization {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .tree-node {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .tree-node-data {
+    width: 3rem;
+    height: 3rem;
+    background-color: #3b82f6; /* blue-500 */
+    color: white;
+    border-radius: 9999px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .tree-node-children {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+  

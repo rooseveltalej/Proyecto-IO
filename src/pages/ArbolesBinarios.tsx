@@ -2,6 +2,7 @@ import { Input, Button } from "react-daisyui";
 import { useState } from "react";
 import { calcularTablas } from "../components/arbolesBinarios/logicArboles";
 import { saveAs } from "file-saver";
+import "../components/arbolesBinarios/style.css";
 
 function ArbolesBinarios() {
   const [numLlaves, setNumLlaves] = useState<number>(0);
@@ -43,26 +44,14 @@ function ArbolesBinarios() {
   const renderArbol = (nodo: any): JSX.Element | null => {
     if (!nodo) return null;
     return (
-      <div className="relative flex flex-col items-center">
-        <div className="w-12 h-12 bg-blue-500 text-white rounded-full flex items-center justify-center">
-          {nodo.llave}
-        </div>
-        <div className="flex justify-between w-full">
-          <div className="w-1/2 flex justify-end">
-            {nodo.izquierda && (
-              <div className="relative">
-                <div className="absolute h-16 w-1 bg-black transform -translate-y-4 translate-x-6"></div>
-                {renderArbol(nodo.izquierda)}
-              </div>
-            )}
+      <div className="tree-node">
+        <div className="tree-node-data">{nodo.llave}</div>
+        <div className="tree-node-children">
+          <div className="tree-node-left">
+            {nodo.izquierda && renderArbol(nodo.izquierda)}
           </div>
-          <div className="w-1/2 flex justify-start">
-            {nodo.derecha && (
-              <div className="relative">
-                <div className="absolute h-16 w-1 bg-black transform -translate-y-4 translate-x-6"></div>
-                {renderArbol(nodo.derecha)}
-              </div>
-            )}
+          <div className="tree-node-right">
+            {nodo.derecha && renderArbol(nodo.derecha)}
           </div>
         </div>
       </div>
@@ -70,140 +59,134 @@ function ArbolesBinarios() {
   };
 
   return (
-    <div className="app-container bg-slate-800 text-white min-h-screen p-8">
-      <header className="app-header text-center mb-6">
-        <h1 className="title text-4xl font-bold">Árboles Binarios Óptimos</h1>
-        <p className="subtitle text-lg">Ingrese las llaves y sus pesos para calcular las tablas.</p>
-      </header>
+    <div className="app-container">
+    <header className="app-header">
+      <h1 className="title">Árboles Binarios Óptimos</h1>
+      <p className="subtitle">Ingrese las llaves y sus pesos para calcular las tablas.</p>
+    </header>
 
-      <div className="form-container flex flex-col items-center gap-6">
-        <div className="input-group w-full max-w-lg">
-          <label className="input-label text-lg font-medium">Número de llaves (máximo 10):</label>
-          <Input
-            type="number"
-            value={numLlaves}
-            onChange={(e) => {
-              const value = Math.min(Number(e.target.value), 10);
-              setNumLlaves(value);
-              setLlaves(Array(value).fill(""));
-              setPesos(Array(value).fill(0));
-            }}
-            min={1}
-            max={10}
-            className="input-field w-full mt-2"
-          />
-        </div>
-
-        {Array.from({ length: numLlaves }).map((_, i) => (
-          <div key={i} className="input-pair flex w-full max-w-lg gap-4">
-            <div className="input-group w-1/2">
-              <label className="input-label text-md font-medium">Llave {i + 1}:</label>
-              <Input
-                type="text"
-                value={llaves[i]}
-                onChange={(e) => {
-                  const newLlaves = [...llaves];
-                  newLlaves[i] = e.target.value;
-                  setLlaves(newLlaves);
-                }}
-                className="input-field w-full mt-2"
-              />
-            </div>
-            <div className="input-group w-1/2">
-              <label className="input-label text-md font-medium">Peso {i + 1}:</label>
-              <Input
-                type="number"
-                step="0.01"
-                value={pesos[i]}
-                onChange={(e) => {
-                  const newPesos = [...pesos];
-                  newPesos[i] = parseFloat(e.target.value) || 0;
-                  setPesos(newPesos);
-                }}
-                className="input-field w-full mt-2"
-              />
-            </div>
+    <div className="main-layout">
+      {/* Sección Izquierda: Formulario */}
+      <div className="section-left">
+        <div className="form-container">
+          <div className="input-group">
+            <label className="input-label">Número de llaves (máximo 10):</label>
+            <Input
+              type="number"
+              value={numLlaves}
+              onChange={(e) => {
+                const value = Math.min(Number(e.target.value), 10);
+                setNumLlaves(value);
+                setLlaves(Array(value).fill(""));
+                setPesos(Array(value).fill(0));
+              }}
+              min={1}
+              max={10}
+              className="input-field"
+            />
           </div>
-        ))}
 
-        <Button
-          className="generate-button bg-slate-600 hover:bg-slate-500 mt-4"
-          onClick={handleSubmit}
-          disabled={llaves.some((llave) => llave === "") || pesos.some((peso) => peso <= 0)}
-        >
-          Generar Tablas
-        </Button>
-        <Button className="export-button bg-slate-600 hover:bg-slate-500 mt-4" onClick={handleExport}>
-          Exportar JSON
-        </Button>
-        <Input
-          type="file"
-          accept="application/json"
-          onChange={handleImport}
-          className="import-input mt-4"
-        />
+          {Array.from({ length: numLlaves }).map((_, i) => (
+            <div key={i} className="input-pair">
+              <div className="input-group">
+                <label className="input-label">Llave {i + 1}:</label>
+                <Input
+                  type="text"
+                  value={llaves[i]}
+                  onChange={(e) => {
+                    const newLlaves = [...llaves];
+                    newLlaves[i] = e.target.value;
+                    setLlaves(newLlaves);
+                  }}
+                  className="input-field"
+                />
+              </div>
+              <div className="input-group">
+                <label className="input-label">Peso {i + 1}:</label>
+                <Input
+                  type="number"
+                  step="0.01"
+                  value={pesos[i]}
+                  onChange={(e) => {
+                    const newPesos = [...pesos];
+                    newPesos[i] = parseFloat(e.target.value) || 0;
+                    setPesos(newPesos);
+                  }}
+                  className="input-field"
+                />
+              </div>
+            </div>
+          ))}
+
+          <Button className="generate-button" onClick={handleSubmit}>
+            Generar Tablas
+          </Button>
+          <Button className="export-button" onClick={handleExport}>
+            Exportar JSON
+          </Button>
+          <Input type="file" accept="application/json" onChange={handleImport} className="import-input" />
+        </div>
       </div>
 
-      {llavesOrdenadas.length > 0 && (
-        <div className="results-container mt-10">
-          <h3 className="results-title text-2xl font-bold mb-4">Llaves Ordenadas</h3>
-          <ul className="keys-list text-lg">
-            {llavesOrdenadas.map((llave, idx) => (
-              <li key={idx} className="key-item">
-                Llave {idx + 1}: {llave}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+      {/* Sección Derecha: Respuestas */}
+      <div className="section-right">
+        {llavesOrdenadas.length > 0 && (
+          <>
+            <h3 className="results-title">Llaves Ordenadas</h3>
+            <ul className="keys-list">
+              {llavesOrdenadas.map((llave, idx) => (
+                <li key={idx} className="key-item">
+                  Llave {idx + 1}: {llave}
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
 
-      {tablaA.length > 0 && (
-        <div className="tables-container mt-10">
-          <h2 className="tables-title text-3xl font-bold mb-6">Resultados</h2>
+        {tablaA.length > 0 && (
+          <div className="tables-container">
+            <h2 className="tables-title">Resultados</h2>
+            <div className="table-wrapper">
+              <h3 className="table-title">Tabla A (Costos)</h3>
+              <table className="results-table">
+                <tbody>
+                  {tablaA.map((fila, i) => (
+                    <tr key={i}>
+                      {fila.map((valor, j) => (
+                        <td key={j} className="table-cell">{valor.toFixed(2)}</td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
 
-          <div className="table-wrapper">
-            <h3 className="table-title text-2xl font-semibold mb-4">Tabla A (Costos)</h3>
-            <table className="results-table border-collapse border border-slate-500 w-full text-center">
-              <tbody>
-                {tablaA.map((fila, i) => (
-                  <tr key={i}>
-                    {fila.map((valor, j) => (
-                      <td key={j} className="border border-slate-400 p-2">
-                        {valor.toFixed(2)}
-                      </td>
-                    ))}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <div className="table-wrapper">
+              <h3 className="table-title">Tabla R (Raíces)</h3>
+              <table className="results-table">
+                <tbody>
+                  {tablaR.map((fila, i) => (
+                    <tr key={i}>
+                      {fila.map((valor, j) => (
+                        <td key={j} className="table-cell">{valor}</td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
+        )}
 
-          <div className="table-wrapper mt-6">
-            <h3 className="table-title text-2xl font-semibold mb-4">Tabla R (Raíces)</h3>
-            <table className="results-table border-collapse border border-slate-500 w-full text-center">
-              <tbody>
-                {tablaR.map((fila, i) => (
-                  <tr key={i}>
-                    {fila.map((valor, j) => (
-                      <td key={j} className="border border-slate-400 p-2">
-                        {valor}
-                      </td>
-                    ))}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+        {arbol && (
+          <div className="tree-container">
+            <h2 className="tree-title">Árbol Generado</h2>
+            <div className="tree-visualization">{renderArbol(arbol)}</div>
           </div>
-        </div>
-      )}
-
-      {arbol && (
-        <div className="tree-container mt-10">
-          <h2 className="tree-title text-3xl font-bold mb-6">Árbol Generado</h2>
-          <div className="tree-visualization flex justify-center items-center">{renderArbol(arbol)}</div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
+  </div>
   );
 }
 
