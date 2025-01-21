@@ -13,6 +13,7 @@ function ArbolesBinarios() {
   const [llavesOrdenadas, setLlavesOrdenadas] = useState<string[]>([]);
   const [arbol, setArbol] = useState<any>(null);
 
+  //llama a la funcion para generar la respuestas: tablas, llaves ordenadas y la estructura del arbol
   const handleSubmit = () => {
     const result = calcularTablas(llaves, pesos);
     setTablaA(result.tablaA);
@@ -21,12 +22,14 @@ function ArbolesBinarios() {
     setArbol(result.arbol);
   };
 
+  //Guarda los datos ingresados al fromulario y permite descargarlos en fromato JSON
   const handleExport = () => {
     const data = { llaves, pesos };
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
     saveAs(blob, "datos_entrada.json");
   };
 
+  //Toma los datos de un archivo JSON para generar respuesta de un ejercicio de manera mas rapida
   const handleImport = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
@@ -41,6 +44,7 @@ function ArbolesBinarios() {
     }
   };
 
+  //Renderiza el arbol obtenido de la respuesta para mostrarlo graficamente
   const renderArbol = (nodo: any): JSX.Element | null => {
     if (!nodo) return null;
     return (
