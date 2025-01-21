@@ -39,7 +39,7 @@
     display: flex;
     flex-direction: column;
     gap: 1.5rem; 
-    overflow-y: auto;
+    overflow-y: 20rem;
   }
   
   .form-container {
@@ -87,7 +87,11 @@
   }
   
   .import-input {
-    margin-top: 1rem;
+    padding: 0;
+    margin-top: 2rem;
+    height: 2rem;
+    width: 10rem;
+    background-color: #2d3748;
   }
   
   /* Sección Derecha: Respuestas */
@@ -157,8 +161,8 @@
   }
   
   .tree-node-data {
-    width: 3rem;
-    height: 3rem;
+    width: 4rem;
+    height: 4rem;
     background-color: #3b82f6; 
     color: white;
     border-radius: 9999px;
@@ -171,5 +175,6 @@
     display: flex;
     justify-content: space-between;
     width: 100%;
+    margin: 0.5rem;
   }
   
