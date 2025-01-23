@@ -1,0 +1,32 @@
+.header-font {
+    padding: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #222;
+    color: white;
+  }
+  
+  .button-generate-table {
+    margin-top: 20px;
+    background-color: #28a745 !important;
+    color: white;
+    font-size: 16px;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold !important;
+    transition: "background-color 0.3s ease";
+  }
+  
+  .download-button {
+    margin-top: 20px;
+    background-color: #fd7e14;
+    color: white;
+    font-size: 18px;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
