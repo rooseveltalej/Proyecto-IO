@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import "../components/mochila/style.css";
-import KnapsackTable from "../components/mochila/Table";
 
 type VariableArray = number[];
 
@@ -16,6 +14,8 @@ const KnapsackOptions: React.FC = () => {
   const [representation, setRepresentation] = useState<JSX.Element | null>(
     null
   );
+  const [table, setTable] = useState<JSX.Element | null>(null);
+  const [valueTable, setValueTable] = useState<JSX.Element | null>(null);
   const [mergedTable, setMergedTable] = useState<JSX.Element | null>(null);
 
   const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -65,6 +65,20 @@ const KnapsackOptions: React.FC = () => {
     setVariableValues([6, 15, 7, 9]);
     setLimit("3");
   };
+  function reconstructSolution(
+    w: number,
+    i: number,
+    count: number[][],
+    weights: number[],
+    solutionArray: number[]
+  ) {
+    // Vamos iterando hacia atrás para saber cuántos de cada x_i se escogieron
+    for (let itemIndex = i; itemIndex > 0; itemIndex--) {
+      const k = count[w][itemIndex]; // cuántos de ese item se tomaron
+      solutionArray[itemIndex - 1] = k;
+      w -= k * weights[itemIndex - 1]; // reducimos la capacidad en función de lo que se tomó
+    }
+  }
 
   const solveKnapsack = () => {
     const dp: number[][] = Array(mochilaLimit + 1)
@@ -114,16 +128,189 @@ const KnapsackOptions: React.FC = () => {
       }
     }
 
-    setMergedTable(
-      <KnapsackTable
-        values={values}
-        count={count}
-        numVariables={numVariables}
-        mochilaLimit={mochilaLimit}
-        objective={objective}
-      />
+    const highlightValue = (): number => {
+      return objective === "Maximizar"
+        ? Math.max(...values[mochilaLimit].slice(1))
+        : Math.min(...values[mochilaLimit].slice(1));
+    };
+
+    const targetValue = highlightValue();
+
+    const mergedTableHTML = (
+      <div style={{ marginTop: "20px", fontFamily: "Arial, sans-serif" }}>
+        <h3>Tabla Fusionada</h3>
+        <table
+          style={{ borderCollapse: "collapse", width: "100%", color: "white" }}
+        >
+          <thead>
+            <tr>
+              <th style={{ border: "1px solid white", padding: "12px" }}>
+                Límite de la mochila
+              </th>
+              {Array.from({ length: numVariables }, (_, index) => (
+                <th
+                  key={index}
+                  style={{ border: "1px solid white", padding: "12px" }}
+                >
+                  x<sub>{index + 1}</sub>
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {values.map((row, w) => (
+              <tr key={w}>
+                <td style={{ border: "1px solid white", padding: "12px" }}>
+                  {w}
+                </td>
+                {Array.from({ length: numVariables }, (_, i) => (
+                  <td
+                    key={i}
+                    style={{
+                      border: "1px solid white",
+                      padding: "12px",
+                      backgroundColor: count[w][i + 1] > 0 ? "green" : "red",
+                      color:
+                        w === mochilaLimit &&
+                        values[w][i + 1] === targetValue &&
+                        count[w][i + 1] > 0
+                          ? "yellow"
+                          : "white",
+                    }}
+                  >
+                    {values[w][i + 1]}, x<sub>{i + 1}</sub> ={" "}
+                    {count[w][i + 1] > 0 ? count[w][i + 1] : 0}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     );
+
+    const solutions: Array<{
+      w: number;
+      xs: number[]; // [x1, x2, x3, ...]
+      total: number;
+    }> = [];
+
+    for (let w = 0; w <= mochilaLimit; w++) {
+      // arreglo temporal para x1, x2, x3...
+      const solutionArray = Array(numVariables).fill(0);
+      reconstructSolution(
+        w,
+        numVariables,
+        count,
+        variableWeights,
+        solutionArray
+      );
+
+      // El valor total es dp[w][numVariables] (ó values[w][numVariables])
+      const total = dp[w][numVariables] === Infinity ? 0 : dp[w][numVariables];
+
+      solutions.push({
+        w,
+        xs: solutionArray,
+        total,
+      });
+    }
+    const finalRow = solutions[mochilaLimit];
+
+    const bestSolutionHTML = (
+      <div style={{ marginTop: "20px", fontFamily: "Arial, sans-serif" }}>
+        <h3>Solución Óptima para la Capacidad {finalRow.w}</h3>
+        <table style={{ borderCollapse: "collapse", color: "white" }}>
+          <thead>
+            <tr>
+              {finalRow.xs.map((_, i) => (
+                <th
+                  key={i}
+                  style={{ border: "1px solid white", padding: "8px" }}
+                >
+                  x<sub>{i + 1}</sub>
+                </th>
+              ))}
+              <th style={{ border: "1px solid white", padding: "8px" }}>Z</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              {finalRow.xs.map((xi, i) => (
+                <td
+                  key={i}
+                  style={{ border: "1px solid white", padding: "8px" }}
+                >
+                  {xi}
+                </td>
+              ))}
+              <td style={{ border: "1px solid white", padding: "8px" }}>
+                {finalRow.total}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    );
+    setBestSolutionTable(bestSolutionHTML);
+
+    // Renderizacion tabla
+    const optimalSolutionsTable = (
+      <div style={{ marginTop: "20px", fontFamily: "Arial, sans-serif" }}>
+        <h3>Soluciones Óptimas para Cada Capacidad</h3>
+        <table
+          style={{ borderCollapse: "collapse", width: "100%", color: "white" }}
+        >
+          <thead>
+            <tr>
+              <th style={{ border: "1px solid white", padding: "8px" }}>
+                Capacidad
+              </th>
+              {Array.from({ length: numVariables }, (_, i) => (
+                <th
+                  key={i}
+                  style={{ border: "1px solid white", padding: "8px" }}
+                >
+                  x<sub>{i + 1}</sub>
+                </th>
+              ))}
+              <th style={{ border: "1px solid white", padding: "8px" }}>
+                Valor total
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {solutions.map(({ w, xs, total }) => (
+              <tr key={w}>
+                <td style={{ border: "1px solid white", padding: "8px" }}>
+                  {w}
+                </td>
+                {xs.map((xi, i) => (
+                  <td
+                    key={i}
+                    style={{ border: "1px solid white", padding: "8px" }}
+                  >
+                    {xi}
+                  </td>
+                ))}
+                <td style={{ border: "1px solid white", padding: "8px" }}>
+                  {total}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    );
+
+    setMergedTable(mergedTableHTML);
+    setSolutionsTable(optimalSolutionsTable);
   };
+  const [solutionsTable, setSolutionsTable] = useState<JSX.Element | null>(
+    null
+  );
+  const [bestSolutionTable, setBestSolutionTable] =
+    useState<JSX.Element | null>(null);
 
   const handleSave = () => {
     const config = {
@@ -146,11 +333,11 @@ const KnapsackOptions: React.FC = () => {
   };
 
   const handleLoad = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
+    const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = (e) => {
-        const config = JSON.parse(e.target?.result as string);
+        const config = JSON.parse(e.target.result);
         setSelectedOption(config.selectedOption);
         setLimit(config.limit);
         setObjective(config.objective);
@@ -172,7 +359,6 @@ const KnapsackOptions: React.FC = () => {
       setError("Please enter a valid limit greater than 0.");
       return;
     }
-
     const valueEquation = variableValues
       .map((value, index) => `${value}x${index + 1}`)
       .join(" + ");
@@ -200,10 +386,14 @@ const KnapsackOptions: React.FC = () => {
   };
 
   return (
-    <div className="header-font">
-      <div>
-        <h1 style={{ marginBottom: "40px" }}>Problema de la mochila</h1>
-      </div>
+    <div
+      style={{
+        padding: "20px",
+        fontFamily: "Arial, sans-serif",
+        backgroundColor: "#222",
+        color: "white",
+      }}
+    >
       <h2>Select Knapsack Type</h2>
       <form onSubmit={handleSubmit}>
         <div>
@@ -341,7 +531,18 @@ const KnapsackOptions: React.FC = () => {
           <button
             type="button"
             onClick={handleSave}
-            className="download-button"
+            style={{
+              marginTop: "20px",
+              backgroundColor: "#fd7e14",
+              color: "white",
+              fontSize: "18px",
+              padding: "12px 24px",
+              border: "none",
+              borderRadius: "5px",
+              cursor: "pointer",
+              fontWeight: "bold",
+              transition: "background-color 0.3s ease",
+            }}
             onMouseOver={(e) => (e.target.style.backgroundColor = "#e76f00")}
             onMouseOut={(e) => (e.target.style.backgroundColor = "#fd7e14")}
           >
@@ -378,7 +579,18 @@ const KnapsackOptions: React.FC = () => {
         </div>
         <button
           type="submit"
-          className="button-generate-table"
+          style={{
+            marginTop: "20px",
+            backgroundColor: "#28a745",
+            color: "white",
+            fontSize: "16px",
+            padding: "12px 24px",
+            border: "none",
+            borderRadius: "5px",
+            cursor: "pointer",
+            fontWeight: "bold",
+            transition: "background-color 0.3s ease",
+          }}
           onMouseOver={(e) => (e.target.style.backgroundColor = "#218838")}
           onMouseOut={(e) => (e.target.style.backgroundColor = "#28a745")}
         >
@@ -386,8 +598,12 @@ const KnapsackOptions: React.FC = () => {
         </button>
       </form>
       {representation}
-      {/* {table} */}
+      {table}
+      {valueTable}
       {mergedTable}
+
+      {/* {solutionsTable} */}
+      {bestSolutionTable /* Tabla con solo la última fila */}
     </div>
   );
 };
